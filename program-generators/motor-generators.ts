@@ -29,7 +29,7 @@ const motorOptionToMotorName = new Map()
     .set("SHOULDER_VERTICAL_RIGHT", "shoulder_vertical_right")
     .set("SHOULDER_HORIZONTAL_RIGHT", "shoulder_horizontal_right")
     .set("TILT_FORWARD_HEAD", "tilt_forward_motor")
-    .set("TURN_HEAD", "turn_head_motor")
+    .set("TURN_HEAD", "turn_head_motor");
 
 const generateRosNodeClassDefinition = (className: string) => `
 class ${className}(Node):
@@ -63,7 +63,6 @@ pythonGenerator.addReservedWords(
 );
 
 export function move_motor(block: Block, generator: typeof pythonGenerator) {
-
     // extract blokc-input
     const motorOption = <string>block.getFieldValue("MOTORNAME");
     const modeInput = block.getFieldValue("MODE");
@@ -72,9 +71,11 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
         "POSITION",
         Order.ATOMIC,
     );
-    const selectedMotorName: string = motorOptionToMotorName.get(motorOption)
+    const selectedMotorName: string = motorOptionToMotorName.get(motorOption);
     if (selectedMotorName === undefined) {
-        throw new Error(`'${selectedMotorName}' is not a valid value for 'MOTORNAME'.`)
+        throw new Error(
+            `'${selectedMotorName}' is not a valid value for 'MOTORNAME'.`,
+        );
     }
 
     // declare python imports
@@ -92,8 +93,9 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
     ] = `motor_name_to_position = {}`;
 
     // declare the 'JointTrajectoryPublisher'-class
-    generator.provideFunction_("JointTrajectoryPublisher", 
-        generateRosNodeClassDefinition(generator.FUNCTION_NAME_PLACEHOLDER_)
+    generator.provideFunction_(
+        "JointTrajectoryPublisher",
+        generateRosNodeClassDefinition(generator.FUNCTION_NAME_PLACEHOLDER_),
     );
 
     // initialize rclpy and instantiate the 'JointTrajectoryPublisher'-node
@@ -109,9 +111,12 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
         positionString = positionInput;
     } else if (modeInput == "RELATIVE") {
         positionString =
-            "motor_name_to_position.get('" + selectedMotorName + "', 0) + " + positionInput;
+            "motor_name_to_position.get('" +
+            selectedMotorName +
+            "', 0) + " +
+            positionInput;
     } else {
-        throw new Error(`unexpected input-mode: ${modeInput}.`)
+        throw new Error(`unexpected input-mode: ${modeInput}.`);
     }
 
     // generate code for publishing the target motor-positiom
