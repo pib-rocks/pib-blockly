@@ -57,20 +57,21 @@ class ${className}(Node):
 
 `;
 
-// Hinzufügen von verbotenen Wörtern, damit die Variablen im Pythoncode nicht überschrieben werden können
+// add reserved keywords, to prevent variavle names in python-code to be overwritten
 pythonGenerator.addReservedWords(
     "motor_name_to_position,selected_motor,joint_trajectory_publisher,JointTrajectoryPublisher()",
 );
 
 export function move_motor(block: Block, generator: typeof pythonGenerator) {
-    // extract blokc-input
+    
+    // extract block-input
     const motorOption = <string>block.getFieldValue("MOTORNAME");
     const modeInput = block.getFieldValue("MODE");
-    const positionInput = generator.valueToCode(
+    const positionInput = String(generator.valueToCode(
         block,
         "POSITION",
         Order.ATOMIC,
-    );
+    ));
     const selectedMotorName: string = motorOptionToMotorName.get(motorOption);
     if (selectedMotorName === undefined) {
         throw new Error(
