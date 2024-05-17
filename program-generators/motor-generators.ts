@@ -63,15 +63,12 @@ pythonGenerator.addReservedWords(
 );
 
 export function move_motor(block: Block, generator: typeof pythonGenerator) {
-    
     // extract block-input
     const motorOption = <string>block.getFieldValue("MOTORNAME");
     const modeInput = block.getFieldValue("MODE");
-    const positionInput = String(generator.valueToCode(
-        block,
-        "POSITION",
-        Order.ATOMIC,
-    ));
+    const positionInput = String(
+        generator.valueToCode(block, "POSITION", Order.ATOMIC),
+    );
     const selectedMotorName: string = motorOptionToMotorName.get(motorOption);
     if (selectedMotorName === undefined) {
         throw new Error(

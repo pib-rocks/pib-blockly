@@ -5,7 +5,6 @@ import * as time_blocks from "./time-generators";
 import * as motor_blocks from "./motor-generators";
 import * as playAudioFromSpeech from "./play-audio-from-speech-generator";
 
-
 export * from "blockly/python";
 
 const generators: typeof pythonGenerator.forBlock = {
@@ -13,7 +12,6 @@ const generators: typeof pythonGenerator.forBlock = {
     ...time_blocks,
     ...motor_blocks,
     ...playAudioFromSpeech,
-
 };
 
 for (const name in generators) {
