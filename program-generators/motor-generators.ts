@@ -107,23 +107,23 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
     }
 
     // declare python imports
-    (generator as any).definitions_["import_rclpy"] = "import rclpy";
-    (generator as any).definitions_["import_sys"] = "import sys";
-    (generator as any).definitions_["import_logging"] = "import logging";
-    (generator as any).definitions_["import_ApplyJointTrajectory"] = "from datatypes.srv import ApplyJointTrajectory";
-    (generator as any).definitions_["from_trajectory_msgs_msg_import_JointTrajectory_JointTrajectoryPoint"] = "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
+    generator.definitions_["import_rclpy"] = "import rclpy";
+    generator.definitions_["import_sys"] = "import sys";
+    generator.definitions_["import_logging"] = "import logging";
+    generator.definitions_["import_ApplyJointTrajectory"] = "from datatypes.srv import ApplyJointTrajectory";
+    generator.definitions_["from_trajectory_msgs_msg_import_JointTrajectory_JointTrajectoryPoint"] = "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
 
     // configure logging
-    (generator as any).definitions_["configure_logging"] = CONFIGURE_LOGGING;
+    generator.definitions_["configure_logging"] = CONFIGURE_LOGGING;
     
     // initialize rclpy and create node
-    (generator as any).definitions_["init_ros"] = INIT_ROS;
+    generator.definitions_["init_ros"] = INIT_ROS;
 
     // initialize apply-joint-trajectory-client
-    (generator as any).definitions_["init_apply_joint_trajectory_client"] = INIT_CLIENT;
+    generator.definitions_["init_apply_joint_trajectory_client"] = INIT_CLIENT;
 
     // generate code that creates an empty dictionary where motor positions are stored
-    (generator as any).definitions_[
+    generator.definitions_[
         "motor_name_to_position"
     ] = `motor_name_to_position = {}`;
 

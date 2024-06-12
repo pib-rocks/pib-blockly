@@ -72,7 +72,7 @@ pythonGenerator.addReservedWords(
 
 export function playAudioFromSpeechGenerator(
     block: Block,
-    generator: CodeGenerator,
+    generator: typeof pythonGenerator,
 ) {
 
     // extract block-input
@@ -80,19 +80,19 @@ export function playAudioFromSpeechGenerator(
     const textInput = generator.valueToCode(block, "TEXT_INPUT", Order.ATOMIC);
 
     // declare python imports
-    (generator as any).definitions_["import_rclpy"] = "import rclpy";
-    (generator as any).definitions_["import_sys"] = "import sys";
-    (generator as any).definitions_["import_logging"] = "import logging";
-    (generator as any).definitions_["import_ApplyPlayAudioFromSpeech"] = "from datatypes.srv import PlayAudioFromSpeech";
+    generator.definitions_["import_rclpy"] = "import rclpy";
+    generator.definitions_["import_sys"] = "import sys";
+    generator.definitions_["import_logging"] = "import logging";
+    generator.definitions_["import_ApplyPlayAudioFromSpeech"] = "from datatypes.srv import PlayAudioFromSpeech";
 
     // configure logging
-    (generator as any).definitions_["configure_logging"] = CONFIGURE_LOGGING;
+    generator.definitions_["configure_logging"] = CONFIGURE_LOGGING;
     
     // initialize rclpy and create node
-    (generator as any).definitions_["init_ros"] = INIT_ROS;
+    generator.definitions_["init_ros"] = INIT_ROS;
 
     // initialize play-audio-from-speech-client
-    (generator as any).definitions_["init_play_audio_from_speech_client"] = INIT_CLIENT;
+    generator.definitions_["init_play_audio_from_speech_client"] = INIT_CLIENT;
 
     // declare the 'play_audio_from_speech'-function
     generator.provideFunction_(
