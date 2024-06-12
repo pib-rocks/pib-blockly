@@ -38,7 +38,7 @@ def apply_joint_trajectory(motor_name: str, position: int) -> None:
 
     request = ApplyJointTrajectory.Request()
     point = JointTrajectoryPoint()
-    point.positions.append(100)
+    point.positions.append(position)
     jt = JointTrajectory()
     jt.joint_names = [motor_name]
     jt.points = [point]
@@ -71,7 +71,7 @@ logging.basicConfig(
 
 const INIT_ROS = `
 rclpy.init()
-node = rclpy.create_node("blockly-node")
+node = rclpy.create_node("blockly_node")
 `;
 
 const INIT_CLIENT = `
@@ -79,6 +79,7 @@ apply_joint_trajectory_client = node.create_client(
     ApplyJointTrajectory,
     'apply_joint_trajectory'
 )
+    
 logging.info(f"waiting for 'apply_joint_trajectory' service to become available...")
 apply_joint_trajectory_client.wait_for_service()
 logging.info(f"service now available")
