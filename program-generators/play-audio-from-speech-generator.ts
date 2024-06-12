@@ -36,6 +36,7 @@ def play_audio_from_speech(speech: str, voice: str) -> None:
 `;
 
 const CONFIGURE_LOGGING = `
+# configure the python-logger
 stdout_handler = logging.StreamHandler(sys.stdout)
 stdout_handler.setLevel(logging.INFO)
 stdout_handler.addFilter(lambda rec: rec.levelno <= logging.INFO)
@@ -59,7 +60,7 @@ play_audio_from_speech_client = node.create_client(
     PlayAudioFromSpeech, 
     'play_audio_from_speech'
 )
-    
+
 logging.info(f"waiting for 'play_audio_from_speech' service to become available...")
 play_audio_from_speech_client.wait_for_service()
 logging.info(f"service now available")

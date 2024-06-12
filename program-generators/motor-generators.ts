@@ -56,6 +56,7 @@ def apply_joint_trajectory(motor_name: str, position: int) -> None:
 `;
 
 const CONFIGURE_LOGGING = `
+# configure the python-logger
 stdout_handler = logging.StreamHandler(sys.stdout)
 stdout_handler.setLevel(logging.INFO)
 stdout_handler.addFilter(lambda rec: rec.levelno <= logging.INFO)
@@ -79,7 +80,7 @@ apply_joint_trajectory_client = node.create_client(
     ApplyJointTrajectory,
     'apply_joint_trajectory'
 )
-    
+
 logging.info(f"waiting for 'apply_joint_trajectory' service to become available...")
 apply_joint_trajectory_client.wait_for_service()
 logging.info(f"service now available")
