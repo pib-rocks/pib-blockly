@@ -31,30 +31,57 @@ const motorOptionToMotorName = new Map()
     .set("TILT_FORWARD_HEAD", "tilt_forward_motor")
     .set("TURN_HEAD", "turn_head_motor");
 
-const generateRosNodeClassDefinition = (className: string) => `
-class ${className}(Node):
-    def __init__(self):                
-        super().__init__('joint_trajectory_publisher')
-        qos_policy = rclpy.qos.QoSProfile(reliability=rclpy.qos.ReliabilityPolicy.RELIABLE, history=rclpy.qos.HistoryPolicy.KEEP_LAST, durability=rclpy.qos.DurabilityPolicy.TRANSIENT_LOCAL, depth=1)
-        self.publisher = self.create_publisher(JointTrajectory, '/joint_trajectory', qos_profile=qos_policy)
-        timer_period = 0.1
-        self.timer = self.create_timer(timer_period, self.timer_callback)
+const APPLY_JOINT_TRAJECTORY_DEF = `
+def apply_joint_trajectory(motor_name: str, position: int) -> None:
 
-    def timer_callback(self):
-        msg = JointTrajectory()
-        msg.header.frame_id = 'default_frame'
-        msg.header.stamp.sec = round(time.time())
-        msg.joint_names = [selected_motor]
-        point = JointTrajectoryPoint()
-        point.positions = [motor_name_to_position.get(selected_motor, 0)]
-        point.velocities = [16000.0]
-        point.accelerations = [10000.0]
-        point.time_from_start.sec = 0
-        point.time_from_start.nanosec = 10000000
-        msg.points.append(point)
-        self.publisher.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg)
+    logging.info(f"setting position of '{motor_name}' to {position}.")
 
+    request = ApplyJointTrajectory.Request()
+    point = JointTrajectoryPoint()
+    point.positions.append(100)
+    jt = JointTrajectory()
+    jt.joint_names = [motor_name]
+    jt.points = [point]
+    request.joint_trajectory = jt
+
+    future = apply_joint_trajectory_client.call_async(request)
+    rclpy.spin_until_future_complete(node, future)
+
+    response: ApplyJointTrajectory.Response = future.result()
+    if response.successful:
+        logging.info(f"position of '{motor_name}' was successfully set.")
+        motor_name_to_position[motor_name] = position
+    else:
+        logging.error(f"setting position of '{motor_name}' failed.")
+`;
+
+const CONFIGURE_LOGGING = `
+stdout_handler = logging.StreamHandler(sys.stdout)
+stdout_handler.setLevel(logging.INFO)
+stdout_handler.addFilter(lambda rec: rec.levelno <= logging.INFO)
+stderr_handler = logging.StreamHandler()
+stderr_handler.setLevel(logging.WARNING)
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=[stdout_handler, stderr_handler],
+    format="[%(levelname)s] [%(asctime)s]: %(message)s",
+    datefmt="%y-%m-%d %H:%M:%S"
+)
+`;
+
+const INIT_ROS = `
+rclpy.init()
+node = rclpy.create_node("blockly-node")
+`;
+
+const INIT_CLIENT = `
+apply_joint_trajectory_client = node.create_client(
+    ApplyJointTrajectory,
+    'apply_joint_trajectory'
+)
+logging.info(f"waiting for 'apply_joint_trajectory' service to become available...")
+apply_joint_trajectory_client.wait_for_service()
+logging.info(f"service now available")
 `;
 
 // add reserved keywords, to prevent variavle names in python-code to be overwritten
@@ -63,6 +90,7 @@ pythonGenerator.addReservedWords(
 );
 
 export function move_motor(block: Block, generator: typeof pythonGenerator) {
+
     // extract block-input
     const motorOption = <string>block.getFieldValue("MOTORNAME");
     const modeInput = block.getFieldValue("MODE");
@@ -78,30 +106,30 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
 
     // declare python imports
     (generator as any).definitions_["import_rclpy"] = "import rclpy";
-    (generator as any).definitions_["from_rclpy_node_import_Node"] =
-        "from rclpy.node import Node";
-    (generator as any).definitions_["import_time"] = "import time";
-    (generator as any).definitions_[
-        "from_trajectory_msgs_msg_import_JointTrajectory_JointTrajectoryPoint"
-    ] = "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
+    (generator as any).definitions_["import_sys"] = "import sys";
+    (generator as any).definitions_["import_logging"] = "import logging";
+    (generator as any).definitions_["import_ApplyJointTrajectory"] = "from datatypes.srv import ApplyJointTrajectory";
+    (generator as any).definitions_["from_trajectory_msgs_msg_import_JointTrajectory_JointTrajectoryPoint"] = "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
+
+    // configure logging
+    (generator as any).definitions_["configure_logging"] = CONFIGURE_LOGGING;
+    
+    // initialize rclpy and create node
+    (generator as any).definitions_["init_ros"] = INIT_ROS;
+
+    // initialize apply-joint-trajectory-client
+    (generator as any).definitions_["init_apply_joint_trajectory_client"] = INIT_CLIENT;
 
     // generate code that creates an empty dictionary where motor positions are stored
     (generator as any).definitions_[
         "motor_name_to_position"
     ] = `motor_name_to_position = {}`;
 
-    // declare the 'JointTrajectoryPublisher'-class
+    // declare the 'apply_joint_trajectory'-function
     generator.provideFunction_(
-        "JointTrajectoryPublisher",
-        generateRosNodeClassDefinition(generator.FUNCTION_NAME_PLACEHOLDER_),
+        "apply_joint_trajectory",
+        APPLY_JOINT_TRAJECTORY_DEF,
     );
-
-    // initialize rclpy and instantiate the 'JointTrajectoryPublisher'-node
-    (generator as any).definitions_["rclpy_init"] = `rclpy.init()`;
-    (generator as any).definitions_[
-        "joint_trajectory_publisher_=_JointTrajectoryPublisher()"
-    ] = `joint_trajectory_publisher = JointTrajectoryPublisher()`;
-    (generator as any).definitions_["selected_motor"] = `selected_motor = None`;
 
     // generate code for computing the target postion of the selected motor
     let positionString = "";
@@ -117,19 +145,7 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
         throw new Error(`unexpected input-mode: ${modeInput}.`);
     }
 
-    // generate code for publishing the target motor-positiom
-    const code =
-        "selected_motor = '" +
-        selectedMotorName +
-        "'\n" +
-        "motor_name_to_position['" +
-        selectedMotorName +
-        "'] = float(" +
-        positionString +
-        ")\n" +
-        "rclpy.spin_once(joint_trajectory_publisher)\n";
-
-    return code;
+    return `apply_joint_trajectory("${selectedMotorName}", ${positionString})\n`;
 }
 
 export {pythonGenerator};
