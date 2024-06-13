@@ -32,12 +32,12 @@ export function playAudioFromSpeechGenerator(
     });
 
     // declare the 'play_audio_from_speech'-function
-    generator.provideFunction_(
+    const functionName = generator.provideFunction_(
         "play_audio_from_speech",
         PLAY_AUDIO_FROM_SPEECH_FUNCTION(generator),
     );
 
-    return `play_audio_from_speech(${textInput}, ${voiceName})\n`;
+    return `${functionName}(${textInput}, ${voiceName})\n`;
 }
 
 export {pythonGenerator};
