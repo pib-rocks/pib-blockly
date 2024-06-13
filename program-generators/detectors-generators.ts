@@ -1,7 +1,14 @@
 import {Block} from "blockly/core/block";
 import {pythonGenerator} from "blockly/python";
-import {IMPORT_BLOBCONVERTER, IMPORT_CV2, IMPORT_DEPTHAI, IMPORT_LOGGING, IMPORT_NUMPY, IMPORT_TIME } from "./util/definitions";
-import { FACE_DETECTOR_CLASS } from "./util/function-declarations";
+import {
+    IMPORT_BLOBCONVERTER,
+    IMPORT_CV2,
+    IMPORT_DEPTHAI,
+    IMPORT_LOGGING,
+    IMPORT_NUMPY,
+    IMPORT_TIME,
+} from "./util/definitions";
+import {FACE_DETECTOR_CLASS} from "./util/function-declarations";
 
 export function face_detector_start_stop(
     block: Block,
@@ -23,7 +30,7 @@ export function face_detector_start_stop(
     // declare the 'FaceDetector'-class
     const className = generator.provideFunction_(
         "FaceDetector",
-        FACE_DETECTOR_CLASS(generator)
+        FACE_DETECTOR_CLASS(generator),
     );
 
     // generate code
@@ -33,8 +40,8 @@ export function face_detector_start_stop(
 }
 
 export function face_detector_running(
-    block: Block, 
-    generator: typeof pythonGenerator
+    block: Block,
+    generator: typeof pythonGenerator,
 ) {
     // extract block-input
     const centerX = generator.getVariableName(
@@ -57,7 +64,7 @@ export function face_detector_running(
     return [
         `${centerX}, ${centerY} = fd.updateDetector()`,
         `if cv2.waitKey(1) == ord('q')`,
-        `${generator.INDENT}break\n`
+        `${generator.INDENT}break\n`,
     ].join("\n");
 }
 

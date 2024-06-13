@@ -1,6 +1,6 @@
 import {Block} from "blockly/core/block";
 import {Order, pythonGenerator} from "blockly/python";
-import { IMPORT_TIME } from "./util/definitions";
+import {IMPORT_TIME} from "./util/definitions";
 
 pythonGenerator.addReservedWords("time");
 
@@ -13,7 +13,7 @@ export function sleep_for_seconds(
 
     // add definitions to generator
     Object.assign(generator.definitions_, {
-        IMPORT_TIME
+        IMPORT_TIME,
     });
 
     // generate code
@@ -26,7 +26,7 @@ export function get_system_time(
 ) {
     // add definitions to generator
     Object.assign(generator.definitions_, {
-        IMPORT_TIME
+        IMPORT_TIME,
     });
 
     // generate code

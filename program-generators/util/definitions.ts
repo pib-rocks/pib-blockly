@@ -1,16 +1,19 @@
 // imports
 
-export const IMPORT_RCLPY = "import rclpy"
-export const IMPORT_NUMPY = "import numpy as np"
-export const IMPORT_CV2 = "import cv2"
-export const IMPORT_DEPTHAI = "import depthai as dai"
-export const IMPORT_BLOBCONVERTER = "import blobconverter"
-export const IMPORT_SYS = "import sys"
-export const IMPORT_TIME = "import time"
-export const IMPORT_LOGGING = "import logging"
-export const IMPORT_PLAY_AUDIO_FROM_SPREECH = "from datatypes.srv import PlayAudioFromSpeech";
-export const IMPORT_APPLY_JOINT_TRAJECTORY = "from datatypes.srv import ApplyJointTrajectory";
-export const IMPORT_JOINT_TRAJECTORY_MESSAGES = "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
+export const IMPORT_RCLPY = "import rclpy";
+export const IMPORT_NUMPY = "import numpy as np";
+export const IMPORT_CV2 = "import cv2";
+export const IMPORT_DEPTHAI = "import depthai as dai";
+export const IMPORT_BLOBCONVERTER = "import blobconverter";
+export const IMPORT_SYS = "import sys";
+export const IMPORT_TIME = "import time";
+export const IMPORT_LOGGING = "import logging";
+export const IMPORT_PLAY_AUDIO_FROM_SPREECH =
+    "from datatypes.srv import PlayAudioFromSpeech";
+export const IMPORT_APPLY_JOINT_TRAJECTORY =
+    "from datatypes.srv import ApplyJointTrajectory";
+export const IMPORT_JOINT_TRAJECTORY_MESSAGES =
+    "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
 
 // ros
 
@@ -63,6 +66,3 @@ logging.info(f"service now available")
 `;
 
 export const INIT_MOTORNAME_TO_POSITION = `motor_name_to_position = {}`;
-
-
-

@@ -1,8 +1,16 @@
 import {Block} from "blockly/core/block";
 
 import {Order, pythonGenerator} from "blockly/python";
-import { CONFIGURE_LOGGING, IMPORT_LOGGING, IMPORT_PLAY_AUDIO_FROM_SPREECH, IMPORT_RCLPY, IMPORT_SYS, INIT_PLAY_AUDIO_FROM_SPEECH_CLIENT, INIT_ROS } from "./util/definitions";
-import { PLAY_AUDIO_FROM_SPEECH_FUNCTION } from "./util/function-declarations";
+import {
+    CONFIGURE_LOGGING,
+    IMPORT_LOGGING,
+    IMPORT_PLAY_AUDIO_FROM_SPREECH,
+    IMPORT_RCLPY,
+    IMPORT_SYS,
+    INIT_PLAY_AUDIO_FROM_SPEECH_CLIENT,
+    INIT_ROS,
+} from "./util/definitions";
+import {PLAY_AUDIO_FROM_SPEECH_FUNCTION} from "./util/function-declarations";
 
 export function playAudioFromSpeechGenerator(
     block: Block,
@@ -20,7 +28,7 @@ export function playAudioFromSpeechGenerator(
         IMPORT_PLAY_AUDIO_FROM_SPREECH,
         CONFIGURE_LOGGING,
         INIT_ROS,
-        INIT_PLAY_AUDIO_FROM_SPEECH_CLIENT
+        INIT_PLAY_AUDIO_FROM_SPEECH_CLIENT,
     });
 
     // declare the 'play_audio_from_speech'-function

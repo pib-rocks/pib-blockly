@@ -20,6 +20,5 @@ export const RESERVED_WORDS = [
     "apply_joint_trajectory_client",
     "motor_name_to_position",
     // face detector
-    "fd"
-].join(",")
-    
+    "fd",
+].join(",");

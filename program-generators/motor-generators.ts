@@ -1,8 +1,18 @@
 import {Block} from "blockly/core/block";
 import {Order, pythonGenerator} from "blockly/python";
-import { CONFIGURE_LOGGING, IMPORT_APPLY_JOINT_TRAJECTORY, IMPORT_JOINT_TRAJECTORY_MESSAGES, IMPORT_LOGGING, IMPORT_RCLPY, IMPORT_SYS, INIT_APPLY_JOINT_TRASJECTORY_CLIENT, INIT_MOTORNAME_TO_POSITION, INIT_ROS } from "./util/definitions";
-import { motors } from "src/app/shared/types/motor-configuration";
-import { APPLY_JOINT_TRAJECTORY_FUNCTION } from "./util/function-declarations";
+import {
+    CONFIGURE_LOGGING,
+    IMPORT_APPLY_JOINT_TRAJECTORY,
+    IMPORT_JOINT_TRAJECTORY_MESSAGES,
+    IMPORT_LOGGING,
+    IMPORT_RCLPY,
+    IMPORT_SYS,
+    INIT_APPLY_JOINT_TRASJECTORY_CLIENT,
+    INIT_MOTORNAME_TO_POSITION,
+    INIT_ROS,
+} from "./util/definitions";
+import {motors} from "src/app/shared/types/motor-configuration";
+import {APPLY_JOINT_TRAJECTORY_FUNCTION} from "./util/function-declarations";
 
 const motorOptionToMotorName = new Map();
 for (const {motorName} of motors) {
@@ -20,7 +30,6 @@ motorOptionToMotorName.delete("TURN_HEAD_MOTOR");
 motorOptionToMotorName.set("TURN_HEAD", "TURN_HEAD_MOTOR");
 
 export function move_motor(block: Block, generator: typeof pythonGenerator) {
-
     // extract block-input
     const motorOption = <string>block.getFieldValue("MOTORNAME");
     const modeInput = block.getFieldValue("MODE");
@@ -44,7 +53,7 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
         CONFIGURE_LOGGING,
         INIT_ROS,
         INIT_APPLY_JOINT_TRASJECTORY_CLIENT,
-        INIT_MOTORNAME_TO_POSITION
+        INIT_MOTORNAME_TO_POSITION,
     });
 
     // declare the 'apply_joint_trajectory'-function
