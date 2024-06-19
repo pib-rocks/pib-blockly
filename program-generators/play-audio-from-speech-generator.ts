@@ -37,6 +37,7 @@ export function playAudioFromSpeechGenerator(
         PLAY_AUDIO_FROM_SPEECH_FUNCTION(generator),
     );
 
+    // generate code
     return `${functionName}(${textInput}, ${voiceName})\n`;
 }
 

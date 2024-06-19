@@ -13,7 +13,7 @@ import {
 } from "./util/definitions";
 import {APPLY_JOINT_TRAJECTORY_FUNCTION} from "./util/function-declarations";
 
-const motorOptionToMotorName = new Map()
+const motorOptionToMotorName = new Map<string, string>()
     .set("THUMB_LEFT_OPPOSITION", "thumb_left_opposition")
     .set("THUMB_LEFT_STRETCH", "thumb_left_stretch")
     .set("INDEX_LEFT_STRETCH", "index_left_stretch")
@@ -50,8 +50,8 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
     const positionInput = String(
         generator.valueToCode(block, "POSITION", Order.ATOMIC),
     );
-    const selectedMotorName: string = motorOptionToMotorName.get(motorOption);
-    if (selectedMotorName === undefined) {
+    const selectedMotorName = motorOptionToMotorName.get(motorOption);
+    if (!selectedMotorName) {
         throw new Error(
             `'${selectedMotorName}' is not a valid value for 'MOTORNAME'.`,
         );
@@ -76,7 +76,7 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
         APPLY_JOINT_TRAJECTORY_FUNCTION(generator),
     );
 
-    // generate code for computing the target postion of the selected motor
+    // generate code
     let positionString = "";
     if (modeInput == "ABSOLUTE") {
         positionString = positionInput;
