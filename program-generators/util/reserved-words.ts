@@ -21,4 +21,9 @@ export const RESERVED_WORDS = [
     "motor_name_to_position",
     // face detector
     "fd",
+    // input
+    "input_queue",
+    "mpid",
+    "program_prompt_publisher",
+    "program_input_subscription"
 ].join(",");
