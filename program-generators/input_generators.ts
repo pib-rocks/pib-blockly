@@ -22,8 +22,8 @@ export function inputGenerator(
     generator: typeof pythonGenerator,
 ) {
     // extract block-input
-    const prompt = <string>block.getFieldValue("PROMPT");
-    const type = generator.valueToCode(block, "TYPE", Order.ATOMIC);
+    const prompt = generator.valueToCode(block, "TEXT", Order.ATOMIC);
+    const type = <string>block.getFieldValue("TYPE");
 
     // add definitions to generator
     Object.assign(generator.definitions_, {
@@ -48,14 +48,18 @@ export function inputGenerator(
     );
 
     // generate code
+    let code = "";
     switch (type) {
-        case 'str':
-            return `${functionName}(${prompt})\n`;
-        case 'int':
-            return `int(${functionName}(${prompt}))\n`
+        case 'TEXT':
+            code = `${functionName}(${prompt})\n`;
+            break;
+        case 'NUMBER':
+            code = `float(${functionName}(${prompt}))\n`;
+            break;
         default:
             throw new Error(`'${type}' is not a valid input-type.`);
     }
+    return [code, Order.ATOMIC];
 }
 
 export {pythonGenerator};
