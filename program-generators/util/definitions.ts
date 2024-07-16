@@ -85,7 +85,8 @@ input_queue: Queue[str] = Queue()
 export const CREATE_PROMPT_PUBLISHER_AND_SUBSCRIBER = `
 program_prompt_publisher: Publisher = node.create_publisher(
     ProgramPrompt, 
-    "program_prompt"
+    "program_prompt",
+    1
 )
 
 def on_input_received(program_input: ProgramInput) -> None:
