@@ -101,7 +101,8 @@ def on_input_received(program_input: ProgramInput) -> None:
 program_input_subscription = node.create_subscription(
     ProgramInput, 
     "program_input", 
-    on_input_received
+    on_input_received,
+    1
 )
 `;
 
