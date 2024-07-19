@@ -189,28 +189,3 @@ class ${generator.FUNCTION_NAME_PLACEHOLDER_}():
         return(self.x_center, self.y_center)
 `;
 
-// input
-
-export const RECEIVE_INPUT_FROM_USER = (generator: CodeGenerator) => `
-def ${generator.FUNCTION_NAME_PLACEHOLDER_}(prompt: str) -> str:
-
-    def task():
-        program_prompt = ProgramPrompt()
-        program_prompt.mpid = mpid
-        program_prompt.prompt = prompt
-        logging.info("sending prompt to user...")
-        program_prompt_publisher.publish(program_prompt)
-        logging.info("waiting for user-response...")
-        try:
-            input: str = input_queue.get(timeout=60)
-        except Empty:
-            logging.error("did not receive input from user in time, aborting...")
-            exit(1)
-        return input
-    future = node.executor.create_task(task)
-
-    rclpy.spin_until_future_complete(node, future)
-    input = future.result()
-    return input
-`;
-
