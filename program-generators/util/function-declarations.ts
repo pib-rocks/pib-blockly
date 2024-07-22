@@ -60,6 +60,26 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: int) -> N
         logging.error(f"setting position of '{motor_name}' failed.")
 `;
 
+//pose
+
+export const APPLY_POSE_FUNCTION = (generator: CodeGenerator) => `
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}(poseId: str, poseName: str) -> None:
+
+    logging.info(f"moving to {poseName}.")
+
+    request = ApplyPose.Request()
+    request.pose_id = poseId
+
+    future = apply_pose_client.call_async(request)
+    rclpy.spin_until_future_complete(node, future)
+
+    response: ApplyPose.Response = future.result()
+    if response.successful:
+        logging.info(f"'{poseName}' was successfully applied.")
+    else:
+        logging.error(f"applying '{poseName}' failed.")
+`;
+
 // face-detector
 
 export const FACE_DETECTOR_CLASS = (generator: CodeGenerator) => `
