@@ -14,8 +14,7 @@ export const IMPORT_APPLY_JOINT_TRAJECTORY =
     "from datatypes.srv import ApplyJointTrajectory";
 export const IMPORT_JOINT_TRAJECTORY_MESSAGES =
     "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
-export const IMPORT_APPLY_POSE =
-    "from datatypes.srv import ApplyPose";
+export const IMPORT_APPLY_POSE = "from datatypes.srv import ApplyPose";
 
 // ros
 
@@ -69,7 +68,7 @@ logging.info(f"service now available")
 
 export const INIT_MOTORNAME_TO_POSITION = `motor_name_to_position = {}`;
 
-//pose
+// pose
 
 export const INIT_APPLY_POSE_CLIENT = `
 apply_pose_client = node.create_client(

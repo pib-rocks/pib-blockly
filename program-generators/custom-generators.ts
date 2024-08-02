@@ -26,5 +26,4 @@ for (const name in generators) {
 pythonGenerator.forBlock["play_audio_from_speech"] =
     generators["playAudioFromSpeechGenerator"];
 
-pythonGenerator.forBlock["move_to_pose"] =
-generators["moveToPoseGenerator"];
+pythonGenerator.forBlock["move_to_pose"] = generators["moveToPoseGenerator"];

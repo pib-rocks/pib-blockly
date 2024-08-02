@@ -1,5 +1,5 @@
 import {Block} from "blockly/core/block";
-import { pythonGenerator } from "blockly/python";
+import {pythonGenerator} from "blockly/python";
 import {
     CONFIGURE_LOGGING,
     IMPORT_LOGGING,
@@ -16,12 +16,9 @@ export function moveToPoseGenerator(
     generator: typeof pythonGenerator,
 ) {
     // extract block-input
-    const poseId = <string>block.getFieldValue("POSENAME");
-    const poseName = "Testpose";
-    // const poseName = <string>pythonGenerator.nameDB_.getName(block.getFieldValue("POSENAME"),NameType.VARIABLE);
-    // Blockly.JavaScript.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE) ??
-    // const poseName = ??
-    
+    const poseId = <string>block.getFieldValue("POSE");
+    const poseName = block.getField("POSE")?.getText();
+
     // add definitions to generator
     Object.assign(generator.definitions_, {
         IMPORT_RCLPY,

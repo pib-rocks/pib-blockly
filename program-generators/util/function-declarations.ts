@@ -60,7 +60,7 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: int) -> N
         logging.error(f"setting position of '{motor_name}' failed.")
 `;
 
-//pose
+// pose
 
 export const APPLY_POSE_FUNCTION = (generator: CodeGenerator) => `
 def ${generator.FUNCTION_NAME_PLACEHOLDER_}(poseId: str, poseName: str) -> None:
