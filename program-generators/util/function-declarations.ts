@@ -65,15 +65,35 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: int) -> N
 export const APPLY_POSE_FUNCTION = (generator: CodeGenerator) => `
 def ${generator.FUNCTION_NAME_PLACEHOLDER_}(poseId: str, poseName: str) -> None:
 
+    logging.info(f"Pose ID: {poseId}")
     logging.info(f"moving to {poseName}.")
 
-    request = ApplyPose.Request()
-    request.pose_id = poseId
+    successful, motor_positions = pose_client.get_motor_positions_of_pose(
+            poseId
+        )
+    if not successful:
+        logging.error(f"getting motor-positions of '{poseName}' failed.")
+        return
 
-    future = apply_pose_client.call_async(request)
+    jt = JointTrajectory()
+    jt.joint_names = []
+
+    for motor_position in motor_positions["motorPositions"]:
+        motor_name = motor_position["motorName"]
+        position = motor_position["position"]
+
+        jt.joint_names.append(motor_name)
+        point = JointTrajectoryPoint()
+        point.positions.append(position)
+        jt.points.append(point)
+
+    request = ApplyJointTrajectory.Request()
+    request.joint_trajectory = jt
+
+    future = apply_joint_trajectory_client.call_async(request)
     rclpy.spin_until_future_complete(node, future)
 
-    response: ApplyPose.Response = future.result()
+    response: ApplyJointTrajectory.Response = future.result()
     if response.successful:
         logging.info(f"'{poseName}' was successfully applied.")
     else:

@@ -22,6 +22,5 @@ export const RESERVED_WORDS = [
     // face detector
     "fd",
     // pose
-    "ApplyPose",
-    "apply_pose_client",
+    "pose_client",
 ].join(",");
