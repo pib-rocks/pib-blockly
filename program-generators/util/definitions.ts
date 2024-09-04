@@ -36,7 +36,7 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[stdout_handler, stderr_handler],
     format="[%(levelname)s] [%(asctime)s]: %(message)s",
-    datefmt="%y-%m-%d %H:%M:%S"
+    datefmt="%y-%m-%d %H:%M:%S", force=True
 )
 `;
 
