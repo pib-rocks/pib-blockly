@@ -14,6 +14,7 @@ export const IMPORT_APPLY_JOINT_TRAJECTORY =
     "from datatypes.srv import ApplyJointTrajectory";
 export const IMPORT_JOINT_TRAJECTORY_MESSAGES =
     "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
+export const IMPORT_POSE_CLIENT = "from pib_api_client import pose_client";
 
 // ros
 
@@ -35,7 +36,7 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[stdout_handler, stderr_handler],
     format="[%(levelname)s] [%(asctime)s]: %(message)s",
-    datefmt="%y-%m-%d %H:%M:%S"
+    datefmt="%y-%m-%d %H:%M:%S", force=True
 )
 `;
 

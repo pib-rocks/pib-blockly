@@ -21,4 +21,6 @@ export const RESERVED_WORDS = [
     "motor_name_to_position",
     // face detector
     "fd",
+    // pose
+    "pose_client",
 ].join(",");
