@@ -19,7 +19,6 @@ export function moveToPoseGenerator(
 ) {
     // extract block-input
     const poseId = <string>block.getFieldValue("POSE");
-    const poseName = block.getField("POSE")?.getText();
 
     // add definitions to generator
     Object.assign(generator.definitions_, {
@@ -40,7 +39,7 @@ export function moveToPoseGenerator(
         APPLY_POSE_FUNCTION(generator),
     );
 
-    return `${functionName}("${poseId}", "${poseName}")\n`;
+    return `${functionName}("${poseId}")\n`;
 }
 
 export {pythonGenerator};

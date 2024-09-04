@@ -63,16 +63,16 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: int) -> N
 // pose
 
 export const APPLY_POSE_FUNCTION = (generator: CodeGenerator) => `
-def ${generator.FUNCTION_NAME_PLACEHOLDER_}(poseId: str, poseName: str) -> None:
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}(poseId: str) -> None:
 
     logging.info(f"Pose ID: {poseId}")
-    logging.info(f"moving to {poseName}.")
+    logging.info(f"moving to pose..")
 
     successful, motor_positions = pose_client.get_motor_positions_of_pose(
             poseId
         )
     if not successful:
-        logging.error(f"getting motor-positions of '{poseName}' failed.")
+        logging.error(f"getting motor-positions of pose failed.")
         return
 
     jt = JointTrajectory()
@@ -95,9 +95,9 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(poseId: str, poseName: str) -> None:
 
     response: ApplyJointTrajectory.Response = future.result()
     if response.successful:
-        logging.info(f"'{poseName}' was successfully applied.")
+        logging.info(f"pose was successfully applied.")
     else:
-        logging.error(f"applying '{poseName}' failed.")
+        logging.error(f"applying pose failed.")
 `;
 
 // face-detector
