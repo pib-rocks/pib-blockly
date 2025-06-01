@@ -1,4 +1,4 @@
-import {Block} from "blockly/core/block";
+import { Block } from "blockly/core";
 import {Order, pythonGenerator} from "blockly/python";
 import {IMPORT_TIME} from "./util/definitions";
 

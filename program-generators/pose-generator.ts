@@ -1,4 +1,4 @@
-import {Block} from "blockly/core/block";
+import { Block } from "blockly/core";
 import {pythonGenerator} from "blockly/python";
 import {
     CONFIGURE_LOGGING,

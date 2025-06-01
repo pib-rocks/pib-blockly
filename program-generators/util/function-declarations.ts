@@ -1,4 +1,4 @@
-import {CodeGenerator} from "blockly";
+import { CodeGenerator } from "blockly/core";
 
 // play-audio-from-speech
 
