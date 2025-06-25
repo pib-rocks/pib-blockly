@@ -15,6 +15,7 @@ export const IMPORT_APPLY_JOINT_TRAJECTORY =
 export const IMPORT_JOINT_TRAJECTORY_MESSAGES =
     "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
 export const IMPORT_POSE_CLIENT = "from pib_api_client import pose_client";
+export const IMPORT_BRICKLET = "from pib_motors.bricklet import set_ssr_state";
 
 // ros
 
