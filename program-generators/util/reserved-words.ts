@@ -23,4 +23,6 @@ export const RESERVED_WORDS = [
     "fd",
     // pose
     "pose_client",
+    // solid-state relay
+    "set_ssr_state",
 ].join(",");
