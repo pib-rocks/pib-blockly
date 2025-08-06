@@ -23,7 +23,7 @@ export function set_solid_state_relay(
         IMPORT_BRICKLET
     });
 
-    // declare the 'play_audio_from_speech'-function
+    // declare the 'set_solid_state_relay'-function
     const functionName = generator.provideFunction_(
         "set_solid_state_relay",
         SET_SOLID_STATE_RELAY_FUNCTION(generator),
