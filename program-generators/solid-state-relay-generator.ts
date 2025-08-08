@@ -4,7 +4,11 @@ import {
     CONFIGURE_LOGGING,
     IMPORT_LOGGING,
     IMPORT_SYS,
-    IMPORT_BRICKLET
+    IMPORT_RCLPY,
+    IMPORT_SET_SOLID_STATE_RELAY,
+    INIT_ROS,
+    INIT_SET_SOLID_STATE_RELAY_STATE_CLIENT,
+    
 } from "./util/definitions";
 import { SET_SOLID_STATE_RELAY_FUNCTION } from "./util/function-declarations";
 
@@ -20,7 +24,10 @@ export function set_solid_state_relay(
         CONFIGURE_LOGGING,
         IMPORT_LOGGING,
         IMPORT_SYS,
-        IMPORT_BRICKLET
+        IMPORT_RCLPY,
+        IMPORT_SET_SOLID_STATE_RELAY,
+        INIT_ROS,
+        INIT_SET_SOLID_STATE_RELAY_STATE_CLIENT,
     });
 
     // declare the 'set_solid_state_relay'-function
