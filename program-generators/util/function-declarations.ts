@@ -110,7 +110,7 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(status: str) -> None:
 
     logging.info(f"received request to turn solid state relay to '{status}'.")
     request = SetSolidStateRelay.Request()
-    request.turned_on = state
+    request.solid_state_relay_state = SolidStateRelayState(turned_on=state)
 
     future = set_solid_state_relay_state_client.call_async(request)
     rclpy.spin_until_future_complete(node, future)
