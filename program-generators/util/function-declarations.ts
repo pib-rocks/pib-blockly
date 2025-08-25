@@ -100,6 +100,18 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(poseId: str) -> None:
         logging.error(f"applying pose failed.")
 `;
 
+// set-solid-state-relay
+
+export const SET_SOLID_STATE_RELAY_FUNCTION = (generator: CodeGenerator) => `
+
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}(status: str) -> None:
+
+    state = status == 'ON'
+
+    logging.info(f"received request to turn solid state relay to '{status}'.")
+    set_ssr_state(state)
+`;
+
 // face-detector
 
 export const FACE_DETECTOR_CLASS = (generator: CodeGenerator) => `
