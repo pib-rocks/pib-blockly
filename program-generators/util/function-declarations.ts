@@ -100,6 +100,28 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(poseId: str) -> None:
         logging.error(f"applying pose failed.")
 `;
 
+// set-solid-state-relay
+
+export const SET_SOLID_STATE_RELAY_FUNCTION = (generator: CodeGenerator) => `
+
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}(status: str) -> None:
+
+    state = status == 'ON'
+
+    logging.info(f"received request to turn solid state relay to '{status}'.")
+    request = SetSolidStateRelay.Request()
+    request.solid_state_relay_state = SolidStateRelayState(turned_on=state)
+
+    future = set_solid_state_relay_state_client.call_async(request)
+    rclpy.spin_until_future_complete(node, future)
+
+    response: SetSolidStateRelay.Response = future.result()
+    if response.successful:
+        logging.info(f"solid state relay was successfully set to '{status}'.")
+    else:
+        logging.error(f"setting solid state relay failed.")
+`;
+
 // face-detector
 
 export const FACE_DETECTOR_CLASS = (generator: CodeGenerator) => `
