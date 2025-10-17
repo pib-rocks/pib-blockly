@@ -15,7 +15,8 @@ export const IMPORT_APPLY_JOINT_TRAJECTORY =
 export const IMPORT_JOINT_TRAJECTORY_MESSAGES =
     "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
 export const IMPORT_POSE_CLIENT = "from pib_api_client import pose_client";
-export const IMPORT_BRICKLET = "from pib_motors.bricklet import set_ssr_state";
+export const IMPORT_SET_SOLID_STATE_RELAY = "from datatypes.srv import SetSolidStateRelay";
+export const IMPORT_SOLID_STATE_RELAY_STATE = "from datatypes.msg import SolidStateRelayState";
 
 // ros
 
@@ -68,3 +69,16 @@ logging.info(f"service now available")
 `;
 
 export const INIT_MOTORNAME_TO_POSITION = `motor_name_to_position = {}`;
+
+// set solid state relay
+
+export const INIT_SET_SOLID_STATE_RELAY_STATE_CLIENT = `
+set_solid_state_relay_state_client = node.create_client(
+    SetSolidStateRelay,
+    'set_solid_state_relay_state'
+)
+
+logging.info(f"waiting for 'set_solid_state_relay_state' service to become available...")
+set_solid_state_relay_state_client.wait_for_service()
+logging.info(f"service now available")
+`;

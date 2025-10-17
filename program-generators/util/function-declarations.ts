@@ -109,7 +109,17 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(status: str) -> None:
     state = status == 'ON'
 
     logging.info(f"received request to turn solid state relay to '{status}'.")
-    set_ssr_state(state)
+    request = SetSolidStateRelay.Request()
+    request.solid_state_relay_state = SolidStateRelayState(turned_on=state)
+
+    future = set_solid_state_relay_state_client.call_async(request)
+    rclpy.spin_until_future_complete(node, future)
+
+    response: SetSolidStateRelay.Response = future.result()
+    if response.successful:
+        logging.info(f"solid state relay was successfully set to '{status}'.")
+    else:
+        logging.error(f"setting solid state relay failed.")
 `;
 
 // face-detector
