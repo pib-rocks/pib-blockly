@@ -12,6 +12,8 @@ export const IMPORT_PLAY_AUDIO_FROM_SPREECH =
     "from datatypes.srv import PlayAudioFromSpeech";
 export const IMPORT_APPLY_JOINT_TRAJECTORY =
     "from datatypes.srv import ApplyJointTrajectory";
+export const IMPORT_GET_JOINT_POSITION =
+    "from datatypes.srv import GetJointPosition";
 export const IMPORT_JOINT_TRAJECTORY_MESSAGES =
     "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
 export const IMPORT_POSE_CLIENT = "from pib_api_client import pose_client";
@@ -68,7 +70,16 @@ apply_joint_trajectory_client.wait_for_service()
 logging.info(f"service now available")
 `;
 
-export const INIT_MOTORNAME_TO_POSITION = `motor_name_to_position = {}`;
+export const INIT_GET_JOINT_POSITION_CLIENT = `
+get_joint_position_client = node.create_client(
+    GetJointPosition,
+    'get_joint_position'
+)
+
+logging.info(f"waiting for 'get_joint_position' service to become available...")
+get_joint_position_client.wait_for_service()
+logging.info(f"service now available")
+`;
 
 // set solid state relay
 
