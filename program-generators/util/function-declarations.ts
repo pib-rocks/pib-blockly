@@ -54,13 +54,13 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str) -> float:
 `;
 
 export const APPLY_JOINT_TRAJECTORY_FUNCTION = (generator: CodeGenerator) => `
-def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: float) -> None:
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: int) -> None:
 
     logging.info(f"setting position of '{motor_name}' to {position}.")
 
     request = ApplyJointTrajectory.Request()
     point = JointTrajectoryPoint()
-    point.positions.append(int(position))
+    point.positions.append(position)
     jt = JointTrajectory()
     jt.joint_names = [motor_name]
     jt.points = [point]
@@ -70,7 +70,9 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: float) ->
     rclpy.spin_until_future_complete(node, future)
 
     response: ApplyJointTrajectory.Response = future.result()
-    if not response.successful:
+    if response.successful:
+        logging.info(f"position of '{motor_name}' was successfully set.")
+    else:
         logging.error(f"setting position of '{motor_name}' failed.")
 `;
 
