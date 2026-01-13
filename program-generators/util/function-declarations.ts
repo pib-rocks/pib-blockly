@@ -37,7 +37,7 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(speech: str, voice: str) -> None:
 // motor
 
 export const GET_JOINT_POSITION_FUNCTION = (generator: CodeGenerator) => `
-def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str) -> float:
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str) -> int:
 
     request = GetJointPosition.Request()
     request.joint_name = motor_name
@@ -50,7 +50,7 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str) -> float:
         return response.position
     else:
         logging.error(f"getting position of '{motor_name}' failed.")
-        return 0.0
+        return 0
 `;
 
 export const APPLY_JOINT_TRAJECTORY_FUNCTION = (generator: CodeGenerator) => `
