@@ -3,15 +3,16 @@ import {Order, pythonGenerator} from "blockly/python";
 import {
     CONFIGURE_LOGGING,
     IMPORT_APPLY_JOINT_TRAJECTORY,
+    IMPORT_GET_JOINT_POSITION,
     IMPORT_JOINT_TRAJECTORY_MESSAGES,
     IMPORT_LOGGING,
     IMPORT_RCLPY,
     IMPORT_SYS,
     INIT_APPLY_JOINT_TRASJECTORY_CLIENT,
-    INIT_MOTORNAME_TO_POSITION,
+    INIT_GET_JOINT_POSITION_CLIENT,
     INIT_ROS,
 } from "./util/definitions";
-import {APPLY_JOINT_TRAJECTORY_FUNCTION} from "./util/function-declarations";
+import {APPLY_JOINT_TRAJECTORY_FUNCTION, GET_JOINT_POSITION_FUNCTION} from "./util/function-declarations";
 
 const motorOptionToMotorName = new Map()
     .set("THUMB_LEFT_OPPOSITION", "thumb_left_opposition")
@@ -67,8 +68,14 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
         CONFIGURE_LOGGING,
         INIT_ROS,
         INIT_APPLY_JOINT_TRASJECTORY_CLIENT,
-        INIT_MOTORNAME_TO_POSITION,
     });
+
+    if (modeInput == "RELATIVE") {
+        Object.assign(generator.definitions_, {
+            IMPORT_GET_JOINT_POSITION,
+            INIT_GET_JOINT_POSITION_CLIENT,
+        });
+    }
 
     // declare the 'apply_joint_trajectory'-function
     const functionName = generator.provideFunction_(
@@ -81,11 +88,12 @@ export function move_motor(block: Block, generator: typeof pythonGenerator) {
     if (modeInput == "ABSOLUTE") {
         positionString = positionInput;
     } else if (modeInput == "RELATIVE") {
-        positionString =
-            "motor_name_to_position.get('" +
-            selectedMotorName +
-            "', 0) + " +
-            positionInput;
+        const getPositionFunctionName = generator.provideFunction_(
+            "get_joint_position",
+            GET_JOINT_POSITION_FUNCTION(generator),
+        );
+        positionString = 
+            `${getPositionFunctionName}('${selectedMotorName}') + ${positionInput}`;
     } else {
         throw new Error(`unexpected input-mode: ${modeInput}.`);
     }

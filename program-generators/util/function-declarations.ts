@@ -36,6 +36,23 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(speech: str, voice: str) -> None:
 
 // motor
 
+export const GET_JOINT_POSITION_FUNCTION = (generator: CodeGenerator) => `
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str) -> int:
+
+    request = GetJointPosition.Request()
+    request.joint_name = motor_name
+
+    future = get_joint_position_client.call_async(request)
+    rclpy.spin_until_future_complete(node, future)
+
+    response: GetJointPosition.Response = future.result()
+    if response.successful:
+        return response.position
+    else:
+        logging.error(f"getting position of '{motor_name}' failed.")
+        return 0
+`;
+
 export const APPLY_JOINT_TRAJECTORY_FUNCTION = (generator: CodeGenerator) => `
 def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: int) -> None:
 
@@ -55,7 +72,6 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(motor_name: str, position: int) -> N
     response: ApplyJointTrajectory.Response = future.result()
     if response.successful:
         logging.info(f"position of '{motor_name}' was successfully set.")
-        motor_name_to_position[motor_name] = position
     else:
         logging.error(f"setting position of '{motor_name}' failed.")
 `;

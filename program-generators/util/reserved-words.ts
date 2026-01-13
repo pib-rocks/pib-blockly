@@ -15,10 +15,11 @@ export const RESERVED_WORDS = [
     "play_audio_from_speech_client",
     // motor
     "ApplyJointTrajectory",
+    "GetJointPosition",
     "JointTrajectory",
     "JointTrajectoryPoint",
     "apply_joint_trajectory_client",
-    "motor_name_to_position",
+    "get_joint_position_client",
     // face detector
     "fd",
     // pose
