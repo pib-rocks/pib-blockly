@@ -17,8 +17,10 @@ export const IMPORT_GET_JOINT_POSITION =
 export const IMPORT_JOINT_TRAJECTORY_MESSAGES =
     "from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint";
 export const IMPORT_POSE_CLIENT = "from pib_api_client import pose_client";
-export const IMPORT_SET_SOLID_STATE_RELAY = "from datatypes.srv import SetSolidStateRelay";
-export const IMPORT_SOLID_STATE_RELAY_STATE = "from datatypes.msg import SolidStateRelayState";
+export const IMPORT_SET_SOLID_STATE_RELAY =
+    "from datatypes.srv import SetSolidStateRelay";
+export const IMPORT_SOLID_STATE_RELAY_STATE =
+    "from datatypes.msg import SolidStateRelayState";
 
 // ros
 
