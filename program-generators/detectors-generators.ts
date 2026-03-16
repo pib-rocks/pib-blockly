@@ -63,7 +63,7 @@ export function face_detector_running(
     // generate code
     return [
         `${centerX}, ${centerY} = fd.updateDetector()`,
-        `if cv2.waitKey(1) == ord('q')`,
+        `if cv2.waitKey(1) == ord('q'):`,
         `${generator.INDENT}break\n`,
     ].join("\n");
 }
