@@ -2,6 +2,7 @@ import {Block} from "blockly/core/block";
 import {pythonGenerator} from "blockly/python";
 import {
     IMPORT_BLOBCONVERTER,
+    IMPORT_SYS,
     IMPORT_CV2,
     IMPORT_DEPTHAI,
     IMPORT_LOGGING,
@@ -20,6 +21,7 @@ export function face_detector_start_stop(
     // add definitions to generator
     Object.assign(generator.definitions_, {
         IMPORT_NUMPY,
+        IMPORT_SYS,
         IMPORT_CV2,
         IMPORT_LOGGING,
         IMPORT_DEPTHAI,
@@ -54,6 +56,7 @@ export function face_detector_running(
     // add definitions to generator
     Object.assign(generator.definitions_, {
         IMPORT_NUMPY,
+        IMPORT_SYS,
         IMPORT_CV2,
         IMPORT_DEPTHAI,
         IMPORT_BLOBCONVERTER,
@@ -62,9 +65,10 @@ export function face_detector_running(
 
     // generate code
     return [
-        `${centerX}, ${centerY} = fd.updateDetector()`,
-        `if cv2.waitKey(1) == ord('q'):`,
-        `${generator.INDENT}break\n`,
+        `while True:`,
+        `\t${centerX}, ${centerY} = fd.updateDetector()`,
+        `\tif cv2.waitKey(1) == ord('q'):`,
+        `\t\t${generator.INDENT}break\n`,
     ].join("\n");
 }
 
