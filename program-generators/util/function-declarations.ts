@@ -138,6 +138,30 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(status: str) -> None:
         logging.error(f"setting solid state relay failed.")
 `;
 
+// get-solid-state-relay
+
+export const GET_SOLID_STATE_RELAY_FUNCTION = (generator: CodeGenerator) => `
+
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}() -> bool:
+
+    received = {}
+
+    def _on_relay_state(msg):
+        received["turned_on"] = msg.turned_on
+
+    subscription = node.create_subscription(
+        SolidStateRelayState, "solid_state_relay_state", _on_relay_state, 10
+    )
+
+    logging.info(f"waiting for solid state relay state...")
+    while "turned_on" not in received:
+        rclpy.spin_once(node)
+    node.destroy_subscription(subscription)
+
+    logging.info(f"solid state relay is {'ON' if received['turned_on'] else 'OFF'}.")
+    return received["turned_on"]
+`;
+
 // run-script
 
 export const RUN_SCRIPT_FUNCTION = (generator: CodeGenerator) => `
