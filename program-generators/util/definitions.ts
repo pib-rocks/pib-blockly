@@ -21,6 +21,7 @@ export const IMPORT_SET_SOLID_STATE_RELAY =
     "from datatypes.srv import SetSolidStateRelay";
 export const IMPORT_SOLID_STATE_RELAY_STATE =
     "from datatypes.msg import SolidStateRelayState";
+export const IMPORT_PARAMIKO = "import paramiko";
 
 // ros
 

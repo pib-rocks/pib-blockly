@@ -138,6 +138,39 @@ def ${generator.FUNCTION_NAME_PLACEHOLDER_}(status: str) -> None:
         logging.error(f"setting solid state relay failed.")
 `;
 
+// run-script
+
+export const RUN_SCRIPT_FUNCTION = (generator: CodeGenerator) => `
+
+def ${generator.FUNCTION_NAME_PLACEHOLDER_}(script: str, host: str, user: str, password: str, port: int) -> None:
+
+    logging.info(f"connecting to {user}@{host}:{port} via ssh...")
+
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    try:
+        client.connect(hostname=host, port=port, username=user, password=password)
+
+        logging.info(f"running script on {host}...")
+        stdin, stdout, stderr = client.exec_command(script)
+        exit_status = stdout.channel.recv_exit_status()
+
+        out = stdout.read().decode()
+        err = stderr.read().decode()
+
+        if out:
+            logging.info(out)
+        if err:
+            logging.error(err)
+
+        logging.info(f"script finished with exit code {exit_status}.")
+    except Exception as e:
+        logging.error(f"ssh execution failed: {e}")
+    finally:
+        client.close()
+`;
+
 // face-detector
 
 export const FACE_DETECTOR_CLASS = (generator: CodeGenerator) => `

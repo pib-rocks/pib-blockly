@@ -6,6 +6,7 @@ import {motor_blocks} from "./motor-blocks";
 import {playAudioFromSpeech} from "./play-audio-from-speech-block";
 import {moveToPose} from "./pose-block";
 import {setSolidStateRelay} from "./solid-state-relay-block";
+import {runScriptBlocks} from "./run-script-block";
 
 export function customBlockDefinition() {
     Blockly.common.defineBlocks(time_blocks);
@@ -14,6 +15,7 @@ export function customBlockDefinition() {
     Blockly.common.defineBlocks(playAudioFromSpeech);
     Blockly.common.defineBlocks(moveToPose);
     Blockly.common.defineBlocks(setSolidStateRelay);
+    Blockly.common.defineBlocks(runScriptBlocks);
 
     face_detector_blocks["face_detector_running"].editable_ = false;
 }
