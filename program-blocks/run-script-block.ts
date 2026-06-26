@@ -97,9 +97,9 @@ const CONNECTION_MUTATOR_MIXIN = {
                         1,
                         65535,
                         1,
-                        (value: number) => {
+                        (value: string | number) => {
                             this.port_ = Number(value);
-                            return value;
+                            return Number(value);
                         },
                     ),
                     "PORT",
